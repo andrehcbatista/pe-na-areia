@@ -15,7 +15,7 @@ class MapScreen extends StatelessWidget {
       appBar: AppBar(title: const Text('Mapa de estabelecimentos')),
       body: SafeArea(
         child: ListView(
-          padding: const EdgeInsets.fromLTRB(18, 8, 18, 24),
+          padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
           children: [
             MockMapPreview(
               establishments: mockEstablishments,

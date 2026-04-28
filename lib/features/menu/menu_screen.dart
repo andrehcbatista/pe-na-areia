@@ -20,7 +20,7 @@ class MenuScreen extends StatelessWidget {
       appBar: AppBar(title: Text('Cardapio')),
       body: SafeArea(
         child: ListView(
-          padding: const EdgeInsets.fromLTRB(18, 8, 18, 24),
+          padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
           children: [
             Text(establishment.name, style: AppTextStyles.title),
             const SizedBox(height: 6),

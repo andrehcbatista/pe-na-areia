@@ -40,39 +40,53 @@ class HomeScreen extends StatelessWidget {
       ),
       body: SafeArea(
         child: ListView(
-          padding: const EdgeInsets.fromLTRB(18, 8, 18, 24),
+          padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
           children: [
             BeachHeader(beach: boaViagemBeach),
-            const SizedBox(height: 18),
+            const SizedBox(height: 16),
             MockMapPreview(
               establishments: mockEstablishments,
               onTap: () => Navigator.of(context).pushNamed(AppRoutes.map),
             ),
             const SizedBox(height: 14),
-            Row(
-              children: [
-                Expanded(
-                  child: SecondaryButton(
-                    label: 'Ver mapa',
-                    icon: Icons.map_rounded,
-                    onPressed: () => Navigator.of(context).pushNamed(
-                      AppRoutes.map,
-                    ),
+            LayoutBuilder(
+              builder: (context, constraints) {
+                final stackButtons = constraints.maxWidth < 360;
+                final mapButton = SecondaryButton(
+                  label: 'Ver mapa',
+                  icon: Icons.map_rounded,
+                  onPressed: () => Navigator.of(context).pushNamed(
+                    AppRoutes.map,
                   ),
-                ),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: SecondaryButton(
-                    label: 'Cadastrar bar',
-                    icon: Icons.storefront_rounded,
-                    onPressed: () => Navigator.of(context).pushNamed(
-                      AppRoutes.establishmentSignup,
-                    ),
+                );
+                final signupButton = SecondaryButton(
+                  label: 'Cadastrar bar',
+                  icon: Icons.storefront_rounded,
+                  onPressed: () => Navigator.of(context).pushNamed(
+                    AppRoutes.establishmentSignup,
                   ),
-                ),
-              ],
+                );
+
+                if (stackButtons) {
+                  return Column(
+                    children: [
+                      mapButton,
+                      const SizedBox(height: 10),
+                      signupButton,
+                    ],
+                  );
+                }
+
+                return Row(
+                  children: [
+                    Expanded(child: mapButton),
+                    const SizedBox(width: 10),
+                    Expanded(child: signupButton),
+                  ],
+                );
+              },
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: 22),
             const Text('Bares na faixa de areia',
                 style: AppTextStyles.sectionTitle),
             const SizedBox(height: 6),

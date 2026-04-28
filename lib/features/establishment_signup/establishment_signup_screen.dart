@@ -12,8 +12,7 @@ class EstablishmentSignupScreen extends StatefulWidget {
       _EstablishmentSignupScreenState();
 }
 
-class _EstablishmentSignupScreenState
-    extends State<EstablishmentSignupScreen> {
+class _EstablishmentSignupScreenState extends State<EstablishmentSignupScreen> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _ownerController = TextEditingController();
@@ -37,7 +36,7 @@ class _EstablishmentSignupScreenState
         child: Form(
           key: _formKey,
           child: ListView(
-            padding: const EdgeInsets.fromLTRB(18, 8, 18, 24),
+            padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
             children: [
               const Text('Solicitacao de cadastro', style: AppTextStyles.title),
               const SizedBox(height: 8),
@@ -99,7 +98,8 @@ class _EstablishmentSignupScreenState
       context: context,
       builder: (context) {
         return AlertDialog(
-          icon: const Icon(Icons.check_circle_rounded, color: AppColors.success),
+          icon:
+              const Icon(Icons.check_circle_rounded, color: AppColors.success),
           title: const Text('Solicitacao registrada'),
           content: const Text(
             'Esta e uma confirmacao simulada. Nenhuma informacao foi enviada para um servidor.',

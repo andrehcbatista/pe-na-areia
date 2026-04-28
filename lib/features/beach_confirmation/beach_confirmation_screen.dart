@@ -13,60 +13,78 @@ class BeachConfirmationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 24),
-              Container(
-                height: 230,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                    colors: [AppColors.oceanLight, AppColors.violetLight],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
-                  borderRadius: BorderRadius.circular(28),
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            final compact = constraints.maxHeight < 640;
+
+            return SingleChildScrollView(
+              padding: const EdgeInsets.fromLTRB(20, 18, 20, 24),
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minHeight: constraints.maxHeight - 42,
                 ),
-                child: const Stack(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Positioned(
-                      right: 24,
-                      top: 28,
-                      child: Icon(
-                        Icons.waves_rounded,
-                        color: AppColors.ocean,
-                        size: 72,
+                    Container(
+                      height: compact ? 176 : 218,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        gradient: const LinearGradient(
+                          colors: [AppColors.oceanLight, AppColors.violetLight],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                        borderRadius: BorderRadius.circular(26),
+                      ),
+                      child: Stack(
+                        children: [
+                          Positioned(
+                            right: 22,
+                            top: compact ? 20 : 28,
+                            child: Icon(
+                              Icons.waves_rounded,
+                              color: AppColors.ocean,
+                              size: compact ? 58 : 72,
+                            ),
+                          ),
+                          const Positioned(
+                            left: 22,
+                            bottom: 22,
+                            right: 22,
+                            child: Text(
+                              'Boa Viagem, Recife/PE',
+                              style: AppTextStyles.title,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    Positioned(
-                      left: 24,
-                      bottom: 24,
-                      right: 24,
-                      child: Text(
-                        'Boa Viagem, Recife/PE',
-                        style: AppTextStyles.title,
-                      ),
+                    const SizedBox(height: 24),
+                    const Text(
+                      'Confirmar praia piloto',
+                      style: AppTextStyles.title,
+                    ),
+                    const SizedBox(height: 10),
+                    Text(
+                      boaViagemBeach.description,
+                      style: AppTextStyles.bodyMuted,
+                    ),
+                    SizedBox(height: compact ? 28 : 48),
+                    PrimaryButton(
+                      label: 'Ver bares em Boa Viagem',
+                      icon: Icons.explore_rounded,
+                      onPressed: () {
+                        Navigator.of(context).pushReplacementNamed(
+                          AppRoutes.home,
+                        );
+                      },
                     ),
                   ],
                 ),
               ),
-              const SizedBox(height: 28),
-              const Text('Confirmar praia piloto', style: AppTextStyles.title),
-              const SizedBox(height: 10),
-              Text(boaViagemBeach.description, style: AppTextStyles.bodyMuted),
-              const Spacer(),
-              PrimaryButton(
-                label: 'Ver bares em Boa Viagem',
-                icon: Icons.explore_rounded,
-                onPressed: () {
-                  Navigator.of(context).pushReplacementNamed(AppRoutes.home);
-                },
-              ),
-            ],
-          ),
+            );
+          },
         ),
       ),
     );

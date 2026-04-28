@@ -18,15 +18,22 @@ class MockMapPreview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery.sizeOf(context);
+    final previewHeight = expanded
+        ? (screenSize.height * 0.58).clamp(320.0, 420.0).toDouble()
+        : screenSize.width < 360
+            ? 172.0
+            : 190.0;
+
     return InkWell(
       onTap: onTap,
-      borderRadius: BorderRadius.circular(24),
+      borderRadius: BorderRadius.circular(22),
       child: Container(
-        height: expanded ? 420 : 190,
-        padding: const EdgeInsets.all(18),
+        height: previewHeight,
+        padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: AppColors.oceanLight,
-          borderRadius: BorderRadius.circular(24),
+          borderRadius: BorderRadius.circular(22),
           border: Border.all(color: AppColors.border),
         ),
         child: LayoutBuilder(
@@ -41,13 +48,21 @@ class MockMapPreview extends StatelessWidget {
                 const Positioned(
                   left: 4,
                   top: 0,
-                  child: Text('Mapa visual de Boa Viagem',
-                      style: AppTextStyles.sectionTitle),
+                  right: 4,
+                  child: Text(
+                    'Mapa visual de Boa Viagem',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: AppTextStyles.sectionTitle,
+                  ),
                 ),
                 const Positioned(
                   left: 4,
                   top: 30,
+                  right: 4,
                   child: Text('Placeholder sem Google Maps',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       style: AppTextStyles.caption),
                 ),
                 for (var index = 0; index < establishments.length; index++)
@@ -93,6 +108,7 @@ class _MapPin extends StatelessWidget {
       child: Column(
         children: [
           Container(
+            constraints: const BoxConstraints(maxWidth: 132),
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
             decoration: BoxDecoration(
               color: AppColors.surface,
@@ -107,6 +123,8 @@ class _MapPin extends StatelessWidget {
             ),
             child: Text(
               label.split(' ').take(2).join(' '),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
               style: const TextStyle(
                 color: AppColors.ink,
                 fontSize: 11,

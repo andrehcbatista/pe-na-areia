@@ -18,11 +18,15 @@ class PrimaryButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
-      height: 52,
+      height: 54,
       child: FilledButton.icon(
         onPressed: onPressed,
-        icon: Icon(icon ?? Icons.arrow_forward_rounded),
-        label: Text(label),
+        icon: Icon(icon ?? Icons.arrow_forward_rounded, size: 20),
+        label: Text(
+          label,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ),
         style: FilledButton.styleFrom(
           backgroundColor: AppColors.ocean,
           foregroundColor: Colors.white,
@@ -30,6 +34,7 @@ class PrimaryButton extends StatelessWidget {
             fontSize: 15,
             fontWeight: FontWeight.w800,
           ),
+          padding: const EdgeInsets.symmetric(horizontal: 16),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
           ),

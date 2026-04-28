@@ -37,10 +37,10 @@ class EstablishmentDetailScreen extends StatelessWidget {
       ),
       body: SafeArea(
         child: ListView(
-          padding: const EdgeInsets.fromLTRB(18, 8, 18, 24),
+          padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
           children: [
             _HeroPlaceholder(establishment: establishment),
-            const SizedBox(height: 20),
+            const SizedBox(height: 18),
             Text(establishment.name, style: AppTextStyles.title),
             const SizedBox(height: 8),
             Text(establishment.description, style: AppTextStyles.bodyMuted),
@@ -117,10 +117,12 @@ class _HeroPlaceholder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final compactWidth = MediaQuery.sizeOf(context).width < 360;
+
     return Container(
-      height: 230,
+      height: compactWidth ? 190 : 220,
       width: double.infinity,
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
         gradient: const LinearGradient(
           colors: [AppColors.ocean, AppColors.violet],
@@ -136,15 +138,19 @@ class _HeroPlaceholder extends StatelessWidget {
           const Spacer(),
           Text(
             establishment.imagePlaceholder,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
             style: const TextStyle(
               color: Colors.white,
-              fontSize: 24,
+              fontSize: 23,
               fontWeight: FontWeight.w900,
             ),
           ),
           const SizedBox(height: 8),
           Text(
             establishment.address,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
             style: const TextStyle(
               color: Colors.white,
               fontSize: 13,
@@ -165,7 +171,7 @@ class _InfoPanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
         color: AppColors.surface,
         borderRadius: BorderRadius.circular(20),

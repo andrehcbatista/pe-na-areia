@@ -16,10 +16,10 @@ class BeachHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
         color: AppColors.surface,
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: BorderRadius.circular(22),
         border: Border.all(color: AppColors.border),
       ),
       child: Column(
@@ -27,8 +27,10 @@ class BeachHeader extends StatelessWidget {
         children: [
           const Text('Praia selecionada', style: AppTextStyles.caption),
           const SizedBox(height: 8),
-          Text('${beach.name}, ${beach.city}/${beach.state}',
-              style: AppTextStyles.title),
+          Text(
+            '${beach.name}, ${beach.city}/${beach.state}',
+            style: AppTextStyles.title,
+          ),
           const SizedBox(height: 8),
           Text(beach.description, style: AppTextStyles.bodyMuted),
         ],

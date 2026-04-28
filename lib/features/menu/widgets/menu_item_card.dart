@@ -17,7 +17,7 @@ class MenuItemCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(14),
+      padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: AppColors.surface,
         borderRadius: BorderRadius.circular(18),
@@ -30,8 +30,8 @@ class MenuItemCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                width: 54,
-                height: 54,
+                width: 50,
+                height: 50,
                 decoration: BoxDecoration(
                   color: item.isHighlighted
                       ? AppColors.coralLight
@@ -70,6 +70,7 @@ class MenuItemCard extends StatelessWidget {
               const SizedBox(width: 12),
               Text(
                 Formatters.currency(item.price),
+                maxLines: 1,
                 style: const TextStyle(
                   color: AppColors.ink,
                   fontSize: 14,
