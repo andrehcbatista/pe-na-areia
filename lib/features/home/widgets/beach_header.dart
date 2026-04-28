@@ -1,0 +1,38 @@
+import 'package:flutter/material.dart';
+
+import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/app_text_styles.dart';
+import '../../../models/beach.dart';
+
+class BeachHeader extends StatelessWidget {
+  const BeachHeader({
+    required this.beach,
+    super.key,
+  });
+
+  final Beach beach;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: AppColors.surface,
+        borderRadius: BorderRadius.circular(24),
+        border: Border.all(color: AppColors.border),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text('Praia selecionada', style: AppTextStyles.caption),
+          const SizedBox(height: 8),
+          Text('${beach.name}, ${beach.city}/${beach.state}',
+              style: AppTextStyles.title),
+          const SizedBox(height: 8),
+          Text(beach.description, style: AppTextStyles.bodyMuted),
+        ],
+      ),
+    );
+  }
+}

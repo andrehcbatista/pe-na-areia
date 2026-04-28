@@ -1,0 +1,68 @@
+import '../../models/establishment.dart';
+
+const mockEstablishments = [
+  Establishment(
+    id: 'bar-atlantico',
+    name: 'Bar Atlantico',
+    description:
+        'Bar de praia com clima elegante, peixes frescos, drinks leves e atendimento rapido na areia.',
+    distanceMeters: 180,
+    rating: 4.8,
+    reviewCount: 286,
+    isOpen: true,
+    freeSets: 12,
+    totalSets: 24,
+    cashbackPercent: 8,
+    priceRange: r'$$$',
+    address: 'Av. Boa Viagem, altura do Segundo Jardim',
+    imagePlaceholder: 'Vista azul da orla',
+  ),
+  Establishment(
+    id: 'mare-alta',
+    name: 'Mare Alta Beach Bar',
+    description:
+        'Opcao descontraida para cervejas geladas, petiscos de frutos do mar e mesas proximas ao calcadao.',
+    distanceMeters: 320,
+    rating: 4.6,
+    reviewCount: 194,
+    isOpen: true,
+    freeSets: 7,
+    totalSets: 18,
+    cashbackPercent: 5,
+    priceRange: r'$$',
+    address: 'Av. Boa Viagem, proximo ao Parque Dona Lindu',
+    imagePlaceholder: 'Guarda-sois perto do mar',
+  ),
+  Establishment(
+    id: 'barraca-coqueiral',
+    name: 'Barraca Coqueiral',
+    description:
+        'Barraca tradicional com pratos regionais, atendimento familiar e estrutura simples bem localizada.',
+    distanceMeters: 540,
+    rating: 4.4,
+    reviewCount: 132,
+    isOpen: false,
+    freeSets: 0,
+    totalSets: 16,
+    cashbackPercent: 4,
+    priceRange: r'$$',
+    address: 'Faixa de areia de Boa Viagem, posto 7',
+    imagePlaceholder: 'Coqueiros e cadeiras',
+  ),
+  Establishment(
+    id: 'orla-premium',
+    name: 'Orla Premium',
+    description:
+        'Experiencia mais reservada, com menu autoral, carta de drinks e conjuntos premium para grupos.',
+    distanceMeters: 760,
+    rating: 4.9,
+    reviewCount: 351,
+    isOpen: true,
+    freeSets: 5,
+    totalSets: 14,
+    cashbackPercent: 10,
+    priceRange: r'$$$$',
+    address: 'Av. Boa Viagem, trecho sul',
+    imagePlaceholder: 'Deck premium na areia',
+  ),
+];
