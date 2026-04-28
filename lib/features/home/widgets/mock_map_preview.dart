@@ -99,7 +99,7 @@ class _MapPin extends StatelessWidget {
               borderRadius: BorderRadius.circular(999),
               boxShadow: [
                 BoxShadow(
-                  color: AppColors.ink.withOpacity(0.08),
+                  color: AppColors.ink.withValues(alpha: 0.08),
                   blurRadius: 16,
                   offset: const Offset(0, 8),
                 ),
@@ -125,13 +125,13 @@ class _MapLinesPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final oceanPaint = Paint()
-      ..color = Colors.white.withOpacity(0.72)
+      ..color = Colors.white.withValues(alpha: 0.72)
       ..style = PaintingStyle.fill;
     final sandPaint = Paint()
       ..color = AppColors.sand
       ..style = PaintingStyle.fill;
     final roadPaint = Paint()
-      ..color = AppColors.ocean.withOpacity(0.22)
+      ..color = AppColors.ocean.withValues(alpha: 0.22)
       ..strokeWidth = 5
       ..style = PaintingStyle.stroke
       ..strokeCap = StrokeCap.round;

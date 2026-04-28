@@ -1,11 +1,11 @@
 {
-    "name": "pe_na_areia",
-    "short_name": "pe_na_areia",
+    "name": "Pé na Areia",
+    "short_name": "Pé na Areia",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "Consulte bares, cardápios e estruturas disponíveis na praia.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
