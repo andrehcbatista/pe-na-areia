@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../core/constants/app_strings.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_text_styles.dart';
 import '../../shared/widgets/primary_button.dart';
@@ -19,7 +20,9 @@ class _EstablishmentSignupScreenState extends State<EstablishmentSignupScreen> {
   final _whatsappController = TextEditingController();
   final _emailController = TextEditingController();
   final _addressController = TextEditingController();
-  final _beachController = TextEditingController(text: 'Boa Viagem');
+  final _beachController = TextEditingController(
+    text: AppStrings.pilotLocation,
+  );
   final _setsController = TextEditingController();
   final _hoursController = TextEditingController();
   final _notesController = TextEditingController();
@@ -198,7 +201,7 @@ class _EstablishmentSignupScreenState extends State<EstablishmentSignupScreen> {
               ),
               const SizedBox(height: 14),
               const Text(
-                'Cadastro real, validação documental, login e integrações ficam fora do MVP 1.',
+                'Cadastro real, validação documental, login e integrações externas ficam fora do MVP 1.',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: AppColors.muted,

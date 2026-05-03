@@ -22,7 +22,7 @@ class MapScreen extends StatelessWidget {
               expanded: true,
             ),
             const SizedBox(height: 20),
-            const Text('Bares proximos', style: AppTextStyles.sectionTitle),
+            const Text('Bares próximos', style: AppTextStyles.sectionTitle),
             const SizedBox(height: 12),
             for (final establishment in mockEstablishments) ...[
               EstablishmentCard(

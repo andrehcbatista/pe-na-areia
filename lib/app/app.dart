@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../core/constants/app_strings.dart';
 import '../core/theme/app_theme.dart';
 import '../features/admin/admin_requests_screen.dart';
 import '../features/beach_confirmation/beach_confirmation_screen.dart';
@@ -17,7 +18,7 @@ class PeNaAreiaApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Pe na Areia',
+      title: AppStrings.appName,
       debugShowCheckedModeBanner: false,
       theme: AppTheme.light,
       initialRoute: AppRoutes.splash,

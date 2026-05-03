@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../app/routes.dart';
+import '../../core/constants/app_strings.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_text_styles.dart';
 import '../../data/mock/mock_beaches.dart';
@@ -53,7 +54,7 @@ class BeachConfirmationScreen extends StatelessWidget {
                             bottom: 22,
                             right: 22,
                             child: Text(
-                              'Boa Viagem, Recife/PE',
+                              AppStrings.pilotLocation,
                               style: AppTextStyles.title,
                             ),
                           ),
@@ -62,7 +63,7 @@ class BeachConfirmationScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 24),
                     const Text(
-                      'Confirmar praia piloto',
+                      'Confirmar praia-piloto',
                       style: AppTextStyles.title,
                     ),
                     const SizedBox(height: 10),

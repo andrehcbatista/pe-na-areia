@@ -58,7 +58,7 @@ class _SplashScreenState extends State<SplashScreen> {
               const Text(AppStrings.appName, style: AppTextStyles.display),
               const SizedBox(height: 12),
               const Text(
-                'Bares de praia, cardapios e conjuntos disponiveis em uma experiencia simples e premium.',
+                'Bares de praia, cardápios e conjuntos disponíveis em uma experiência simples e premium.',
                 style: AppTextStyles.bodyMuted,
               ),
               const Spacer(),

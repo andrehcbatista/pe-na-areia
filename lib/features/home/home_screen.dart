@@ -22,7 +22,7 @@ class HomeScreen extends StatelessWidget {
         title: const Text('Descobrir bares'),
         actions: [
           IconButton(
-            tooltip: 'QR Code',
+            tooltip: 'QR Code em breve',
             icon: const Icon(Icons.qr_code_scanner_rounded),
             onPressed: () => ComingSoonDialog.show(
               context,
@@ -87,11 +87,13 @@ class HomeScreen extends StatelessWidget {
               },
             ),
             const SizedBox(height: 22),
-            const Text('Bares na faixa de areia',
-                style: AppTextStyles.sectionTitle),
+            const Text(
+              'Bares na faixa de areia',
+              style: AppTextStyles.sectionTitle,
+            ),
             const SizedBox(height: 6),
             const Text(
-              'Dados locais para validar descoberta, cardapio, distancia e disponibilidade.',
+              'Dados locais para validar descoberta, cardápio, distância e disponibilidade.',
               style: AppTextStyles.bodyMuted,
             ),
             const SizedBox(height: 14),
@@ -117,7 +119,7 @@ class HomeScreen extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             const Text(
-              'Sem login, pagamento, pedido real, reserva real ou integracao externa nesta etapa.',
+              'Sem login, pagamento, pedido real, reserva real ou integração externa nesta etapa.',
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: AppColors.muted,

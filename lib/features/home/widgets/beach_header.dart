@@ -28,7 +28,7 @@ class BeachHeader extends StatelessWidget {
           const Text('Praia selecionada', style: AppTextStyles.caption),
           const SizedBox(height: 8),
           Text(
-            '${beach.name}, ${beach.city}/${beach.state}',
+            '${beach.name} — ${beach.city}/${beach.state}',
             style: AppTextStyles.title,
           ),
           const SizedBox(height: 8),

@@ -26,7 +26,7 @@ class EstablishmentDetailScreen extends StatelessWidget {
         title: Text(establishment.name),
         actions: [
           IconButton(
-            tooltip: 'QR Code',
+            tooltip: 'QR Code em breve',
             icon: const Icon(Icons.qr_code_scanner_rounded),
             onPressed: () => ComingSoonDialog.show(
               context,
@@ -61,7 +61,7 @@ class EstablishmentDetailScreen extends StatelessWidget {
             _InfoPanel(establishment: establishment),
             const SizedBox(height: 20),
             PrimaryButton(
-              label: 'Ver cardapio',
+              label: 'Ver cardápio',
               icon: Icons.menu_book_rounded,
               onPressed: () => Navigator.of(context).pushNamed(
                 AppRoutes.menu,
@@ -70,29 +70,29 @@ class EstablishmentDetailScreen extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             SecondaryButton(
-              label: 'Fazer pedido',
+              label: 'Pedidos em breve',
               icon: Icons.room_service_rounded,
               onPressed: () => ComingSoonDialog.show(
                 context,
-                featureName: 'Fazer pedido',
+                featureName: 'Pedidos',
               ),
             ),
             const SizedBox(height: 10),
             SecondaryButton(
-              label: 'Abrir comanda',
+              label: 'Comanda em breve',
               icon: Icons.receipt_long_rounded,
               onPressed: () => ComingSoonDialog.show(
                 context,
-                featureName: 'Abrir comanda',
+                featureName: 'Comanda',
               ),
             ),
             const SizedBox(height: 10),
             SecondaryButton(
-              label: 'Reservar conjunto',
+              label: 'Reservas em breve',
               icon: Icons.event_available_rounded,
               onPressed: () => ComingSoonDialog.show(
                 context,
-                featureName: 'Reservar conjunto',
+                featureName: 'Reservas',
               ),
             ),
           ],
@@ -181,7 +181,7 @@ class _InfoPanel extends StatelessWidget {
         children: [
           _InfoRow(
             icon: Icons.star_rounded,
-            label: 'Reputacao',
+            label: 'Reputação',
             value: '',
             trailing: RatingStars(
               rating: establishment.rating,
@@ -191,19 +191,19 @@ class _InfoPanel extends StatelessWidget {
           const Divider(height: 24),
           _InfoRow(
             icon: Icons.near_me_rounded,
-            label: 'Distancia simulada',
+            label: 'Distância simulada',
             value: Formatters.meters(establishment.distanceMeters),
           ),
           const Divider(height: 24),
           _InfoRow(
             icon: Icons.payments_rounded,
-            label: 'Faixa de preco',
+            label: 'Faixa de preço',
             value: establishment.priceRange,
           ),
           const Divider(height: 24),
           _InfoRow(
             icon: Icons.place_rounded,
-            label: 'Endereco',
+            label: 'Endereço',
             value: establishment.address,
           ),
         ],

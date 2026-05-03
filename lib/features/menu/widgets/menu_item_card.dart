@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../core/constants/app_strings.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_text_styles.dart';
 import '../../../core/utils/formatters.dart';
@@ -103,9 +104,7 @@ class MenuItemCard extends StatelessWidget {
       ..hideCurrentSnackBar()
       ..showSnackBar(
         const SnackBar(
-          content: Text(
-            'Pedidos estar\u00E3o dispon\u00EDveis na pr\u00F3xima etapa do P\u00E9 na Areia.',
-          ),
+          content: Text(AppStrings.ordersComingSoonMessage),
           behavior: SnackBarBehavior.floating,
         ),
       );

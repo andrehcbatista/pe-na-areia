@@ -17,7 +17,7 @@ class MenuScreen extends StatelessWidget {
     final categories = menuForEstablishment(establishment.id);
 
     return Scaffold(
-      appBar: AppBar(title: Text('Cardapio')),
+      appBar: AppBar(title: const Text('Cardápio')),
       body: SafeArea(
         child: ListView(
           padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
@@ -25,7 +25,7 @@ class MenuScreen extends StatelessWidget {
             Text(establishment.name, style: AppTextStyles.title),
             const SizedBox(height: 6),
             const Text(
-              'Produtos mockados para validar a consulta publica do MVP.',
+              'Produtos mockados para validar a consulta pública do MVP 1.',
               style: AppTextStyles.bodyMuted,
             ),
             const SizedBox(height: 20),
@@ -35,11 +35,11 @@ class MenuScreen extends StatelessWidget {
             ],
             const SizedBox(height: 10),
             PrimaryButton(
-              label: 'Fazer pedido',
+              label: 'Pedidos em breve',
               icon: Icons.room_service_rounded,
               onPressed: () => ComingSoonDialog.show(
                 context,
-                featureName: 'Fazer pedido',
+                featureName: 'Pedidos',
               ),
             ),
           ],

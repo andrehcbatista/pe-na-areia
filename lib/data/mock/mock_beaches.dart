@@ -6,7 +6,7 @@ const boaViagemBeach = Beach(
   city: 'Recife',
   state: 'PE',
   description:
-      'Praia urbana de Recife com bares na faixa de areia, orla movimentada e experiencia ideal para o MVP 1.',
+      'Praia urbana de Recife com bares na faixa de areia, orla movimentada e experiência ideal para o MVP 1.',
 );
 
 const mockBeaches = [

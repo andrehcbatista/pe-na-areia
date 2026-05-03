@@ -25,7 +25,7 @@ class ComingSoonDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       icon: const Icon(Icons.schedule_rounded, color: AppColors.violet),
-      title: Text('$featureName em breve'),
+      title: Text('$featureName: Em breve'),
       content: const Text(AppStrings.comingSoonMessage),
       actions: [
         TextButton(

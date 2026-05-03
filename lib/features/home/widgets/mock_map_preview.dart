@@ -50,7 +50,7 @@ class MockMapPreview extends StatelessWidget {
                   top: 0,
                   right: 4,
                   child: Text(
-                    'Mapa visual de Boa Viagem',
+                    'Mapa mockado de Boa Viagem',
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: AppTextStyles.sectionTitle,
@@ -60,7 +60,7 @@ class MockMapPreview extends StatelessWidget {
                   left: 4,
                   top: 30,
                   right: 4,
-                  child: Text('Placeholder sem Google Maps',
+                  child: Text('Sem Google Maps real no MVP 1',
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: AppTextStyles.caption),
