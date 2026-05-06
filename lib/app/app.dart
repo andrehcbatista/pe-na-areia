@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import '../core/constants/app_strings.dart';
 import '../core/theme/app_theme.dart';
 import '../features/admin/admin_requests_screen.dart';
+import '../features/auth/login_screen.dart';
+import '../features/auth/password_recovery_screen.dart';
+import '../features/auth/user_signup_screen.dart';
 import '../features/beach_confirmation/beach_confirmation_screen.dart';
 import '../features/diagnostics/supabase_diagnostics_screen.dart';
 import '../features/establishment_detail/establishment_detail_screen.dart';
@@ -26,6 +29,9 @@ class PeNaAreiaApp extends StatelessWidget {
       routes: {
         AppRoutes.splash: (_) => const SplashScreen(),
         AppRoutes.beachConfirmation: (_) => const BeachConfirmationScreen(),
+        AppRoutes.login: (_) => const LoginScreen(),
+        AppRoutes.userSignup: (_) => const UserSignupScreen(),
+        AppRoutes.passwordRecovery: (_) => const PasswordRecoveryScreen(),
         AppRoutes.home: (_) => const HomeScreen(),
         AppRoutes.map: (_) => const MapScreen(),
         AppRoutes.establishmentDetail: (_) => const EstablishmentDetailScreen(),

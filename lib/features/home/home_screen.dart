@@ -87,6 +87,11 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: const Text('Descobrir bares'),
         actions: [
+          _LoginEntryButton(
+            onPressed: () {
+              Navigator.of(context).pushNamed(AppRoutes.login);
+            },
+          ),
           IconButton(
             tooltip: 'QR Code em breve',
             icon: const Icon(Icons.qr_code_scanner_rounded),
@@ -117,7 +122,9 @@ class _HomeScreenState extends State<HomeScreen> {
         child: ListView(
           padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
           children: [
-            BeachHeader(beach: boaViagemBeach),
+            BeachHeader(
+              beach: boaViagemBeach,
+            ),
             const SizedBox(height: 16),
             MockMapPreview(
               establishments: _establishments,
@@ -221,6 +228,33 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _LoginEntryButton extends StatelessWidget {
+  const _LoginEntryButton({
+    required this.onPressed,
+  });
+
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton.icon(
+      onPressed: onPressed,
+      icon: const Icon(Icons.person_outline_rounded, size: 18),
+      label: const Text('Entrar'),
+      style: TextButton.styleFrom(
+        foregroundColor: AppColors.oceanDark,
+        textStyle: const TextStyle(
+          fontSize: 13,
+          fontWeight: FontWeight.w800,
+        ),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+        minimumSize: const Size(0, 36),
+        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
       ),
     );
   }

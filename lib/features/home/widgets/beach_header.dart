@@ -7,10 +7,12 @@ import '../../../models/beach.dart';
 class BeachHeader extends StatelessWidget {
   const BeachHeader({
     required this.beach,
+    this.trailing,
     super.key,
   });
 
   final Beach beach;
+  final Widget? trailing;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +27,17 @@ class BeachHeader extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('Praia selecionada', style: AppTextStyles.caption),
+          Row(
+            children: [
+              const Expanded(
+                child: Text(
+                  'Praia selecionada',
+                  style: AppTextStyles.caption,
+                ),
+              ),
+              if (trailing != null) trailing!,
+            ],
+          ),
           const SizedBox(height: 8),
           Text(
             '${beach.name} — ${beach.city}/${beach.state}',
