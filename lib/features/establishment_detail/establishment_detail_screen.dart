@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
 import '../../app/routes.dart';
+import '../../core/services/supabase_client_service.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_text_styles.dart';
 import '../../core/utils/formatters.dart';
 import '../../data/mock/mock_establishments.dart';
+import '../../data/repositories/supabase_public_data_repository.dart';
 import '../../models/establishment.dart';
 import '../../shared/widgets/availability_chip.dart';
 import '../../shared/widgets/cashback_badge.dart';
@@ -14,12 +16,91 @@ import '../../shared/widgets/rating_stars.dart';
 import '../../shared/widgets/secondary_button.dart';
 import '../../shared/widgets/status_badge.dart';
 
-class EstablishmentDetailScreen extends StatelessWidget {
+class EstablishmentDetailScreen extends StatefulWidget {
   const EstablishmentDetailScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  State<EstablishmentDetailScreen> createState() {
+    return _EstablishmentDetailScreenState();
+  }
+}
+
+class _EstablishmentDetailScreenState extends State<EstablishmentDetailScreen> {
+  Establishment? _establishment;
+  String? _fallbackMessage;
+  bool _loadedRoute = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_loadedRoute) {
+      return;
+    }
+
+    _loadedRoute = true;
     final establishment = _establishmentFromRoute(context);
+    _establishment = establishment;
+    _loadSupabaseDetails(establishment.id);
+  }
+
+  Future<void> _loadSupabaseDetails(String establishmentId) async {
+    if (!SupabaseClientService.isConfigured ||
+        !_looksLikeUuid(establishmentId)) {
+      return;
+    }
+
+    try {
+      final details = await SupabasePublicDataRepository()
+          .fetchApprovedActiveEstablishmentDetails(establishmentId);
+
+      if (!mounted) {
+        return;
+      }
+
+      if (details == null) {
+        setState(() {
+          _establishment = _mockFallbackFor(_establishment);
+        });
+        return;
+      }
+
+      setState(() {
+        _establishment = details;
+        _fallbackMessage = null;
+      });
+    } catch (_) {
+      if (!mounted) {
+        return;
+      }
+
+      setState(() {
+        _fallbackMessage =
+            'N\u00E3o foi poss\u00EDvel atualizar os detalhes agora. Exibindo os dados locais.';
+      });
+    }
+  }
+
+  bool _looksLikeUuid(String value) {
+    return RegExp(
+      r'^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$',
+    ).hasMatch(value);
+  }
+
+  Establishment _mockFallbackFor(Establishment? current) {
+    if (current == null) {
+      return mockEstablishments.first;
+    }
+
+    return mockEstablishments.firstWhere(
+      (establishment) =>
+          establishment.id == current.id || establishment.name == current.name,
+      orElse: () => mockEstablishments.first,
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final establishment = _establishment ?? mockEstablishments.first;
 
     return Scaffold(
       appBar: AppBar(
@@ -58,6 +139,10 @@ class EstablishmentDetailScreen extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 18),
+            if (_fallbackMessage != null) ...[
+              _FallbackNotice(message: _fallbackMessage!),
+              const SizedBox(height: 14),
+            ],
             _InfoPanel(establishment: establishment),
             const SizedBox(height: 20),
             PrimaryButton(
@@ -111,6 +196,45 @@ class EstablishmentDetailScreen extends StatelessWidget {
     return mockEstablishments.firstWhere(
       (establishment) => establishment.id == id,
       orElse: () => mockEstablishments.first,
+    );
+  }
+}
+
+class _FallbackNotice extends StatelessWidget {
+  const _FallbackNotice({required this.message});
+
+  final String message;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: AppColors.oceanLight,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppColors.border),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Icon(
+            Icons.info_outline_rounded,
+            color: AppColors.oceanDark,
+            size: 18,
+          ),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Text(
+              message,
+              style: const TextStyle(
+                color: AppColors.oceanDark,
+                fontSize: 12,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

@@ -2,6 +2,8 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../core/services/supabase_client_service.dart';
 import '../../models/establishment.dart';
+import '../../models/menu_category.dart';
+import '../../models/menu_item.dart';
 import '../mock/mock_establishments.dart';
 
 class SupabasePublicDataRepository {
@@ -75,6 +77,27 @@ class SupabasePublicDataRepository {
     return response.map(Map<String, dynamic>.from).toList();
   }
 
+  Future<Map<String, dynamic>?> fetchApprovedActiveEstablishmentById(
+    String establishmentId,
+  ) async {
+    final response = await _client
+        .from('establishments')
+        .select(
+          'id,beach_id,name,slug,description,operation_type,phone,address,reference_point,latitude,longitude,cover_image_url,logo_url,opening_hours,average_rating,reviews_count,status,is_active',
+        )
+        .eq('id', establishmentId)
+        .eq('status', 'approved')
+        .eq('is_active', true)
+        .limit(1);
+
+    final records = response.map(Map<String, dynamic>.from).toList();
+    if (records.isEmpty) {
+      return null;
+    }
+
+    return records.first;
+  }
+
   Future<List<Map<String, dynamic>>> fetchActiveAvailabilitySnapshots(
     List<String> establishmentIds,
   ) async {
@@ -133,6 +156,95 @@ class SupabasePublicDataRepository {
     ];
   }
 
+  Future<Establishment?> fetchApprovedActiveEstablishmentDetails(
+    String establishmentId,
+  ) async {
+    final establishment =
+        await fetchApprovedActiveEstablishmentById(establishmentId);
+    if (establishment == null) {
+      return null;
+    }
+
+    final snapshots = await fetchActiveAvailabilitySnapshots([establishmentId]);
+    final snapshotsByEstablishment = <String, Map<String, dynamic>>{};
+    if (snapshots.isNotEmpty) {
+      snapshotsByEstablishment[establishmentId] = snapshots.first;
+    }
+
+    return _establishmentFromRecord(
+      establishment,
+      snapshotsByEstablishment,
+      0,
+    );
+  }
+
+  Future<List<Map<String, dynamic>>> fetchActiveMenuCategories(
+    String establishmentId,
+  ) async {
+    final response = await _client
+        .from('menu_categories')
+        .select('id,establishment_id,name,description,display_order,is_active')
+        .eq('establishment_id', establishmentId)
+        .eq('is_active', true)
+        .order('display_order')
+        .order('name');
+
+    return response.map(Map<String, dynamic>.from).toList();
+  }
+
+  Future<List<Map<String, dynamic>>> fetchActiveMenuItems({
+    required String establishmentId,
+    String? categoryId,
+  }) async {
+    var query = _client
+        .from('menu_items')
+        .select(
+          'id,establishment_id,category_id,name,description,price_cents,status,is_active,display_order,cashback_preview_text',
+        )
+        .eq('establishment_id', establishmentId)
+        .eq('is_active', true);
+
+    if (categoryId != null) {
+      query = query.eq('category_id', categoryId);
+    }
+
+    final response = await query.order('display_order').order('name');
+
+    return response.map(Map<String, dynamic>.from).toList();
+  }
+
+  Future<List<MenuCategory>> fetchMenuForEstablishment(
+    String establishmentId,
+  ) async {
+    final categories = await fetchActiveMenuCategories(establishmentId);
+    final items = await fetchActiveMenuItems(establishmentId: establishmentId);
+
+    if (categories.isEmpty || items.isEmpty) {
+      return const [];
+    }
+
+    final itemsByCategory = <String, List<MenuItem>>{};
+    for (final item in items) {
+      final categoryId = _stringValue(item['category_id']);
+      if (categoryId == null) {
+        continue;
+      }
+
+      itemsByCategory.putIfAbsent(categoryId, () => []).add(
+            _menuItemFromRecord(item),
+          );
+    }
+
+    return [
+      for (final category in categories)
+        MenuCategory(
+          id: _stringValue(category['id']) ?? '',
+          title: _stringValue(category['name']) ?? 'Categoria',
+          items: itemsByCategory[_stringValue(category['id'])] ?? const [],
+        ),
+    ];
+  }
+
   Establishment _establishmentFromRecord(
     Map<String, dynamic> record,
     Map<String, Map<String, dynamic>> snapshotsByEstablishment,
@@ -168,6 +280,38 @@ class SupabasePublicDataRepository {
           fallback?.imagePlaceholder ??
           'Boa Viagem',
     );
+  }
+
+  MenuItem _menuItemFromRecord(Map<String, dynamic> record) {
+    final cashbackPercent = _cashbackPercentFromPreview(
+      _stringValue(record['cashback_preview_text']),
+    );
+
+    return MenuItem(
+      id: _stringValue(record['id']) ?? 'supabase-menu-item',
+      establishmentId: _stringValue(record['establishment_id']) ?? '',
+      categoryId: _stringValue(record['category_id']) ?? '',
+      name: _stringValue(record['name']) ?? 'Item sem nome',
+      description: _stringValue(record['description']) ??
+          'Item publico do cardapio do estabelecimento.',
+      price: (_intValue(record['price_cents']) ?? 0) / 100,
+      cashbackPercent: cashbackPercent,
+      isAvailable: _stringValue(record['status']) != 'unavailable',
+      isHighlighted: cashbackPercent != null && cashbackPercent > 0,
+    );
+  }
+
+  int? _cashbackPercentFromPreview(String? value) {
+    if (value == null) {
+      return null;
+    }
+
+    final match = RegExp(r'(\d+)%').firstMatch(value);
+    if (match == null) {
+      return null;
+    }
+
+    return int.tryParse(match.group(1) ?? '');
   }
 
   Establishment? _mockBySlug(String? slug) {

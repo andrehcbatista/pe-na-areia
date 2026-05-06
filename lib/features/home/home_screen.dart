@@ -169,7 +169,7 @@ class _HomeScreenState extends State<HomeScreen> {
             const SizedBox(height: 6),
             if (_dataSource == _HomeDataSource.supabase)
               const Text(
-                'Dados publicos reais para descoberta, com cardapio ainda mockado nesta etapa.',
+                'Dados publicos reais para descoberta, com detalhes e cardapio quando disponiveis.',
                 style: AppTextStyles.bodyMuted,
               )
             else
