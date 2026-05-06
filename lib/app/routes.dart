@@ -7,4 +7,5 @@ class AppRoutes {
   static const menu = '/menu';
   static const establishmentSignup = '/establishment-signup';
   static const adminRequests = '/admin-requests';
+  static const supabaseDiagnostics = '/supabase-diagnostics';
 }

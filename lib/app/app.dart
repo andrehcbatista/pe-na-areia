@@ -4,6 +4,7 @@ import '../core/constants/app_strings.dart';
 import '../core/theme/app_theme.dart';
 import '../features/admin/admin_requests_screen.dart';
 import '../features/beach_confirmation/beach_confirmation_screen.dart';
+import '../features/diagnostics/supabase_diagnostics_screen.dart';
 import '../features/establishment_detail/establishment_detail_screen.dart';
 import '../features/establishment_signup/establishment_signup_screen.dart';
 import '../features/home/home_screen.dart';
@@ -31,6 +32,8 @@ class PeNaAreiaApp extends StatelessWidget {
         AppRoutes.menu: (_) => const MenuScreen(),
         AppRoutes.establishmentSignup: (_) => const EstablishmentSignupScreen(),
         AppRoutes.adminRequests: (_) => const AdminRequestsScreen(),
+        AppRoutes.supabaseDiagnostics: (_) =>
+            const SupabaseDiagnosticsScreen(),
       },
     );
   }

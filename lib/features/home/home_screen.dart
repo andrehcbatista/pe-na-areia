@@ -36,6 +36,15 @@ class HomeScreen extends StatelessWidget {
               Navigator.of(context).pushNamed(AppRoutes.adminRequests);
             },
           ),
+          IconButton(
+            tooltip: 'Diagnostico Supabase',
+            icon: const Icon(Icons.cloud_sync_rounded),
+            onPressed: () {
+              Navigator.of(context).pushNamed(
+                AppRoutes.supabaseDiagnostics,
+              );
+            },
+          ),
         ],
       ),
       body: SafeArea(
