@@ -65,7 +65,7 @@ class EstablishmentDetailScreen extends StatelessWidget {
               icon: Icons.menu_book_rounded,
               onPressed: () => Navigator.of(context).pushNamed(
                 AppRoutes.menu,
-                arguments: establishment.id,
+                arguments: establishment,
               ),
             ),
             const SizedBox(height: 10),
@@ -102,7 +102,12 @@ class EstablishmentDetailScreen extends StatelessWidget {
   }
 
   Establishment _establishmentFromRoute(BuildContext context) {
-    final id = ModalRoute.of(context)?.settings.arguments as String?;
+    final arguments = ModalRoute.of(context)?.settings.arguments;
+    if (arguments is Establishment) {
+      return arguments;
+    }
+
+    final id = arguments is String ? arguments : null;
     return mockEstablishments.firstWhere(
       (establishment) => establishment.id == id,
       orElse: () => mockEstablishments.first,

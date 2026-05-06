@@ -49,7 +49,12 @@ class MenuScreen extends StatelessWidget {
   }
 
   Establishment _establishmentFromRoute(BuildContext context) {
-    final id = ModalRoute.of(context)?.settings.arguments as String?;
+    final arguments = ModalRoute.of(context)?.settings.arguments;
+    if (arguments is Establishment) {
+      return arguments;
+    }
+
+    final id = arguments is String ? arguments : null;
     return mockEstablishments.firstWhere(
       (establishment) => establishment.id == id,
       orElse: () => mockEstablishments.first,
