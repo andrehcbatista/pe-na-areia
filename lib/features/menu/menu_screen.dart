@@ -23,6 +23,7 @@ class _MenuScreenState extends State<MenuScreen> {
   Establishment? _establishment;
   List<MenuCategory> _categories = const [];
   String? _fallbackMessage;
+  bool _isLoadingSupabaseMenu = false;
   bool _loadedRoute = false;
 
   @override
@@ -45,19 +46,31 @@ class _MenuScreenState extends State<MenuScreen> {
       return;
     }
 
+    _isLoadingSupabaseMenu = true;
+
     try {
       final categories =
           await SupabasePublicDataRepository().fetchMenuForEstablishment(
         establishmentId,
       );
 
-      if (!mounted || categories.isEmpty || !_hasVisibleItems(categories)) {
+      if (!mounted) {
+        return;
+      }
+
+      if (categories.isEmpty || !_hasVisibleItems(categories)) {
+        setState(() {
+          _fallbackMessage =
+              'O cardapio publico real ainda nao possui itens ativos. Exibindo os dados locais do MVP 1.';
+          _isLoadingSupabaseMenu = false;
+        });
         return;
       }
 
       setState(() {
         _categories = categories;
         _fallbackMessage = null;
+        _isLoadingSupabaseMenu = false;
       });
     } catch (_) {
       if (!mounted) {
@@ -67,6 +80,7 @@ class _MenuScreenState extends State<MenuScreen> {
       setState(() {
         _fallbackMessage =
             'N\u00E3o foi poss\u00EDvel carregar o card\u00E1pio real agora. Exibindo os dados locais.';
+        _isLoadingSupabaseMenu = false;
       });
     }
   }
@@ -92,8 +106,19 @@ class _MenuScreenState extends State<MenuScreen> {
               _FallbackNotice(message: _fallbackMessage!),
               const SizedBox(height: 14),
             ],
-            for (final category in _categories) ...[
-              MenuCategorySection(category: category),
+            if (_isLoadingSupabaseMenu) ...[
+              const _LoadingNotice(
+                message: 'Carregando cardapio publico do estabelecimento.',
+              ),
+              const SizedBox(height: 14),
+            ],
+            if (_hasVisibleItems(_categories))
+              for (final category in _categories) ...[
+                MenuCategorySection(category: category),
+                const SizedBox(height: 12),
+              ]
+            else ...[
+              const _EmptyMenuState(),
               const SizedBox(height: 12),
             ],
             const SizedBox(height: 10),
@@ -128,9 +153,41 @@ class _MenuScreenState extends State<MenuScreen> {
     }
 
     final id = arguments is String ? arguments : null;
-    return mockEstablishments.firstWhere(
+    final establishment = mockEstablishments.firstWhere(
       (establishment) => establishment.id == id,
       orElse: () => mockEstablishments.first,
+    );
+    if (id != null && establishment.id != id) {
+      _fallbackMessage =
+          'Não encontramos esse estabelecimento agora. Exibindo um cardapio local do MVP 1.';
+    }
+
+    return establishment;
+  }
+}
+
+class _LoadingNotice extends StatelessWidget {
+  const _LoadingNotice({required this.message});
+
+  final String message;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        const SizedBox(
+          width: 16,
+          height: 16,
+          child: CircularProgressIndicator(strokeWidth: 2),
+        ),
+        const SizedBox(width: 10),
+        Expanded(
+          child: Text(
+            message,
+            style: AppTextStyles.caption,
+          ),
+        ),
+      ],
     );
   }
 }
@@ -166,6 +223,39 @@ class _FallbackNotice extends StatelessWidget {
                 fontSize: 12,
                 fontWeight: FontWeight.w700,
               ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _EmptyMenuState extends StatelessWidget {
+  const _EmptyMenuState();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: AppColors.surface,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppColors.border),
+      ),
+      child: const Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Icon(
+            Icons.menu_book_outlined,
+            color: AppColors.oceanDark,
+            size: 20,
+          ),
+          SizedBox(width: 10),
+          Expanded(
+            child: Text(
+              'Nenhum item de cardapio disponivel para exibir agora.',
+              style: AppTextStyles.bodyMuted,
             ),
           ),
         ],

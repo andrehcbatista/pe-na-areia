@@ -177,6 +177,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 'Dados locais para validar descoberta, cardápio, distância e disponibilidade.',
                 style: AppTextStyles.bodyMuted,
               ),
+            if (_isCheckingSupabase) ...[
+              const SizedBox(height: 10),
+              const _PublicDataLoadingNotice(),
+            ],
             if (kDebugMode) ...[
               const SizedBox(height: 8),
               _DataSourceIndicator(
@@ -218,6 +222,30 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       ),
+    );
+  }
+}
+
+class _PublicDataLoadingNotice extends StatelessWidget {
+  const _PublicDataLoadingNotice();
+
+  @override
+  Widget build(BuildContext context) {
+    return const Row(
+      children: [
+        SizedBox(
+          width: 16,
+          height: 16,
+          child: CircularProgressIndicator(strokeWidth: 2),
+        ),
+        SizedBox(width: 10),
+        Expanded(
+          child: Text(
+            'Verificando dados publicos. Os dados locais seguem disponiveis.',
+            style: AppTextStyles.caption,
+          ),
+        ),
+      ],
     );
   }
 }

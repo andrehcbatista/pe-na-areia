@@ -28,6 +28,7 @@ class EstablishmentDetailScreen extends StatefulWidget {
 class _EstablishmentDetailScreenState extends State<EstablishmentDetailScreen> {
   Establishment? _establishment;
   String? _fallbackMessage;
+  bool _isLoadingSupabaseDetails = false;
   bool _loadedRoute = false;
 
   @override
@@ -49,6 +50,8 @@ class _EstablishmentDetailScreenState extends State<EstablishmentDetailScreen> {
       return;
     }
 
+    _isLoadingSupabaseDetails = true;
+
     try {
       final details = await SupabasePublicDataRepository()
           .fetchApprovedActiveEstablishmentDetails(establishmentId);
@@ -60,6 +63,9 @@ class _EstablishmentDetailScreenState extends State<EstablishmentDetailScreen> {
       if (details == null) {
         setState(() {
           _establishment = _mockFallbackFor(_establishment);
+          _fallbackMessage =
+              'Não encontramos esse estabelecimento nos dados publicos agora. Exibindo uma opcao local do MVP 1.';
+          _isLoadingSupabaseDetails = false;
         });
         return;
       }
@@ -67,6 +73,7 @@ class _EstablishmentDetailScreenState extends State<EstablishmentDetailScreen> {
       setState(() {
         _establishment = details;
         _fallbackMessage = null;
+        _isLoadingSupabaseDetails = false;
       });
     } catch (_) {
       if (!mounted) {
@@ -76,6 +83,7 @@ class _EstablishmentDetailScreenState extends State<EstablishmentDetailScreen> {
       setState(() {
         _fallbackMessage =
             'N\u00E3o foi poss\u00EDvel atualizar os detalhes agora. Exibindo os dados locais.';
+        _isLoadingSupabaseDetails = false;
       });
     }
   }
@@ -143,6 +151,12 @@ class _EstablishmentDetailScreenState extends State<EstablishmentDetailScreen> {
               _FallbackNotice(message: _fallbackMessage!),
               const SizedBox(height: 14),
             ],
+            if (_isLoadingSupabaseDetails) ...[
+              const _LoadingNotice(
+                message: 'Atualizando detalhes publicos do estabelecimento.',
+              ),
+              const SizedBox(height: 14),
+            ],
             _InfoPanel(establishment: establishment),
             const SizedBox(height: 20),
             PrimaryButton(
@@ -193,9 +207,41 @@ class _EstablishmentDetailScreenState extends State<EstablishmentDetailScreen> {
     }
 
     final id = arguments is String ? arguments : null;
-    return mockEstablishments.firstWhere(
+    final establishment = mockEstablishments.firstWhere(
       (establishment) => establishment.id == id,
       orElse: () => mockEstablishments.first,
+    );
+    if (id != null && establishment.id != id) {
+      _fallbackMessage =
+          'Não encontramos esse estabelecimento agora. Exibindo uma opcao local do MVP 1.';
+    }
+
+    return establishment;
+  }
+}
+
+class _LoadingNotice extends StatelessWidget {
+  const _LoadingNotice({required this.message});
+
+  final String message;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        const SizedBox(
+          width: 16,
+          height: 16,
+          child: CircularProgressIndicator(strokeWidth: 2),
+        ),
+        const SizedBox(width: 10),
+        Expanded(
+          child: Text(
+            message,
+            style: AppTextStyles.caption,
+          ),
+        ),
+      ],
     );
   }
 }

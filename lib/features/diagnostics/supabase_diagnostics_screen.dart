@@ -163,7 +163,21 @@ class _SupabaseDiagnosticsScreenState extends State<SupabaseDiagnosticsScreen> {
       return 'Erro desconhecido ao consultar o Supabase.';
     }
 
-    return text;
+    if (text.contains('SocketException') ||
+        text.contains('Failed host lookup') ||
+        text.contains('ClientException')) {
+      return 'Nao foi possivel conectar ao Supabase agora. Verifique a internet e tente novamente.';
+    }
+
+    if (text.contains('401') || text.contains('403')) {
+      return 'A leitura publica foi recusada. Verifique a chave publica e as politicas de leitura.';
+    }
+
+    if (text.contains('relation') && text.contains('does not exist')) {
+      return 'Uma tabela publica esperada nao foi encontrada no Supabase.';
+    }
+
+    return 'Nao foi possivel concluir a leitura publica no Supabase. Tente novamente em instantes.';
   }
 
   @override
