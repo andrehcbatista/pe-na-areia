@@ -15,8 +15,7 @@ class SupabaseDiagnosticsScreen extends StatefulWidget {
   }
 }
 
-class _SupabaseDiagnosticsScreenState
-    extends State<SupabaseDiagnosticsScreen> {
+class _SupabaseDiagnosticsScreenState extends State<SupabaseDiagnosticsScreen> {
   bool _isLoading = true;
   _DiagnosticStep _connectionStep = _DiagnosticStep.waiting('Conexao');
   _DiagnosticStep _beachesStep = _DiagnosticStep.waiting('Praias ativas');
@@ -64,6 +63,9 @@ class _SupabaseDiagnosticsScreenState
 
     try {
       await repository.testConnection();
+      if (!mounted) {
+        return;
+      }
       setState(() {
         _connectionStep = _DiagnosticStep.success(
           'Conexao',
@@ -91,6 +93,9 @@ class _SupabaseDiagnosticsScreenState
 
     try {
       final beaches = await repository.fetchActiveBeaches();
+      if (!mounted) {
+        return;
+      }
       setState(() {
         _beachesStep = _DiagnosticStep.success(
           'Praias ativas',
@@ -112,6 +117,9 @@ class _SupabaseDiagnosticsScreenState
     try {
       final establishments =
           await repository.fetchApprovedActiveEstablishments();
+      if (!mounted) {
+        return;
+      }
       setState(() {
         _establishmentsStep = _DiagnosticStep.success(
           'Estabelecimentos ativos/aprovados',

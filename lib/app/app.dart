@@ -32,8 +32,7 @@ class PeNaAreiaApp extends StatelessWidget {
         AppRoutes.menu: (_) => const MenuScreen(),
         AppRoutes.establishmentSignup: (_) => const EstablishmentSignupScreen(),
         AppRoutes.adminRequests: (_) => const AdminRequestsScreen(),
-        AppRoutes.supabaseDiagnostics: (_) =>
-            const SupabaseDiagnosticsScreen(),
+        AppRoutes.supabaseDiagnostics: (_) => const SupabaseDiagnosticsScreen(),
       },
     );
   }
